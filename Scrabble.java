@@ -134,7 +134,7 @@ public class Scrabble {
      * @param number the number of tiles to draw (typically 7).
      * @return an ArrayList containing 7 randomly drawn Tile objects from the tile pool.
      */
-    private static ArrayList<Tile> generateTileSet(ArrayList<Tile> pool) {
+    public static ArrayList<Tile> generateTileSet(ArrayList<Tile> pool) {
         ArrayList<Tile> hand = new ArrayList<>();
         Random rand = new Random();
 
@@ -154,7 +154,7 @@ public class Scrabble {
      * @param tiles the current set of tiles the player has.
      * @return true if the word can be formed from the tiles; false otherwise.
      */
-    private static boolean canMakeWord(String word, ArrayList<Tile> tiles) {
+    public static boolean canMakeWord(String word, ArrayList<Tile> tiles) {
         ArrayList<Character> temp = new ArrayList<>();
         for (Tile t : tiles) {
             temp.add(t.getLetter());
@@ -191,7 +191,7 @@ public class Scrabble {
      * @param word the word entered by the player.
      * @return the total Scrabble score of the word.
      */
-    private static int getWordValue(String word) {
+    public static int getWordValue(String word) {
         int score = 0;
         for (char c : word.toUpperCase().toCharArray()) {
             switch (c) {
