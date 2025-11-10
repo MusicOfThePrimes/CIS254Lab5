@@ -154,7 +154,7 @@ public class Scrabble {
      * @param tiles the current set of tiles the player has.
      * @return true if the word can be formed from the tiles; false otherwise.
      */
-    public static boolean canMakeWord(String word, ArrayList<Tile> tiles) {
+    public static boolean canSpell(String word, ArrayList<Tile> tiles) {
         ArrayList<Character> temp = new ArrayList<>();
         for (Tile t : tiles) {
             temp.add(t.getLetter());
@@ -226,8 +226,9 @@ public class Scrabble {
      * @param word  the valid word formed by the player.
      * @param tiles the player's current tile set.
      * @param pool the remaining Scrabble tile pool (shared across the game).
+     * @param expectedCount the expected number of tiles per player's hand (tile set).
      */
-    private static void updateTiles(String word, ArrayList<Tile> tiles, ArrayList<Tile> pool) {
+    private static void getNewTileSet(String word, ArrayList<Tile> tiles, ArrayList<Tile> pool, int expectedCount) {
         // Remove used tiles from player's hand
         for (char c : word.toUpperCase().toCharArray()) {
             for (int i = 0; i < tiles.size(); i++) {
@@ -239,7 +240,7 @@ public class Scrabble {
         }
         // Draw new tiles from the remaining pool to refill the hand
         Random rand = new Random();
-        while (tiles.size() < 7 && !pool.isEmpty()) {
+        while (tiles.size() < expectedCount && !pool.isEmpty()) {
             int index = rand.nextInt(pool.size());
             tiles.add(pool.remove(index));
         }
@@ -267,11 +268,11 @@ public class Scrabble {
             System.out.print("Enter a word: ");
             String word = scanner.nextLine().trim();
 
-            if (canMakeWord(word, playerTiles)) {
+            if (canSpell(word, playerTiles)) {
                 System.out.println("Yes, can spell " + word);
                 int score = getWordValue(word);
                 System.out.println("Word score = " + score);
-                updateTiles(word, playerTiles, tilePool);
+                getNewTileSet(word, playerTiles, tilePool, 7);   
             } else {
                 System.out.println("No, cannot spell " + word);
             }
